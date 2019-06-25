@@ -24,9 +24,6 @@
 
 PLDpred <- function(sequences, allele=NULL, gene=NULL, output){
 
-  allele <- as.character(allele)
-  gene <- as.character(gene)
-
   # Setting
   aa = c('A','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T','V','W','Y')
   len <- sapply(8:14, function(x) paste('l',x,sep=''))
@@ -75,29 +72,34 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output){
   # Gene definition
 
   HLAgene<- c('A','B','C','G')
-
-  if(is.null(allele) & is.null(gene)){
-    data("PWMgenes")
-    if (is.null(dim(sequences))){
-      score <-PLDpred::ScorePWM(sequences,PosWM)
-      gene <- HLAgene[which.max(score)]
-    }else{
-      score <- lapply(1:nrow(sequences), function(x){
-       sc <- ScorePWM(sequences[x,],PosWM)
-      })
-      gene <- sapply(score, function(d){
-        g <- NULL
-        g <- HLAgene[which.max(d)]
-        return(g)
-      })
+  if (!is.null(gene)){
+    gene <- as.character(gene)
+  }else{
+    if(is.null(allele) & is.null(gene)){
+      data("PWMgenes")
+      if (is.null(dim(sequences))){
+        score <-PLDpred::ScorePWM(sequences,PosWM)
+        gene <- HLAgene[which.max(score)]
+      }else{
+        score <- lapply(1:nrow(sequences), function(x){
+          sc <- ScorePWM(sequences[x,],PosWM)
+        })
+        gene <- sapply(score, function(d){
+          g <- NULL
+          g <- HLAgene[which.max(d)]
+          return(g)
+        })
+      }
+    }
+    if (!is.null(allele) & is.null(gene)){
+      allele <- as.character(allele)
+      gene <- substr(allele,5,5)
     }
   }
-  if (!is.null(allele) & is.null(gene)){
-    gene <- substr(allele,5,5)
-  }
+
 
   # Format sequence in 20 dimensions
-  sequences <- Sequence_vector(sequences, pHF = NULL)
+  sequences <- Sequence_vector(sequences)
 
   #### Prediction ####
   prediction <- Prediction_LD(empty.seq, sequences, pred_sparse, allele, gene)
