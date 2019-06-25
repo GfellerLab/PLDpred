@@ -8,7 +8,7 @@ The prediction of ligand length distribution is computed with the function PLDpr
 
 #### INSTALLATION ####
 
-install.packages("devetools")
+install.packages("devtools")
 devtools::install_github("GfellerLab/PLDpred")
 
 #### USAGE #####
@@ -23,6 +23,12 @@ PLDpred(sequences, allele='ListOfAlleles', gene='ListOfGenes', output='path/file
 #### OUTPUT ####
 
 PLDpred returns a vector or dataframe of peptides length distribution of HLA class I with sequence index and corresponding HLA-I allele, HLA-I gene or gene predicted (if allele=NULL and gene=NULL). Output could be saved as in csv format with filename defines in the output argument. 
+
+#### Example ####
+
+data(sequences.test)
+PLDpred::PLDpred(sequences = sequences.test[,-1], allele=sequences.test[,1], gene=NULL, output="./test_PLDpred")
+
 
 #### HELP ####
 
