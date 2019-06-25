@@ -22,7 +22,7 @@
 #' @export
 
 
-PLDpred <- function(sequences, allele=NULL, gene=NULL, output){
+PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
 
   # Setting
   aa = c('A','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T','V','W','Y')
