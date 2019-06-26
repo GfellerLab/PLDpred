@@ -4,7 +4,7 @@ PLDpred is a predictor of peptides length distribution (PLD) of HLA-I based on H
 
 ###############
 
-The prediction of ligand length distribution is computed with the function PLDpred, taking as input a vector or dataframe of HLA sequences. Important to mention that predictions are only available for HLA-gene A, B or C. HLA-alleles and HLA-genes are defined separately using arguments "allele" and "gene". If HLA-gene is unknown, it will be predict based on gene-specific position weight matrix score. 
+The prediction of ligand length distribution is computed with the function PLDpred, taking as input a vector or dataframe of HLA sequences. Important to mention that predictions are only available for HLA-gene A, B or C. HLA-alleles and HLA-genes are defined separately using arguments "allele" and "gene".
 
 #### INSTALLATION ####
 
@@ -13,10 +13,9 @@ devtools::install_github("GfellerLab/PLDpred")
 
 #### USAGE #####
 
-sequences <- read.table('HLA/sequence/file')
 PLDpred(sequences, allele='ListOfAlleles', gene='ListOfGenes', output='path/filename')
 
-* sequences : Vector or dataframe with the HLA sequences were each element correspond to one amino acid. For dataframe, lines are HLA and column are sequence position.  
+* sequences : Vector or dataframe with HLA sequences where each element correspond to one amino acid. For dataframe, lines are HLA-allele and column are sequence position.  
 * allele : list of characters (i.e.'HLA-A01:01).
 * gene : list of characters, if allele unknown. ('A','B','C')
 
