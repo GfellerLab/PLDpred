@@ -25,7 +25,7 @@ PLDpred returns a vector or dataframe of peptides length distribution of HLA cla
 
 #### Example ####
 
-data(sequences.test)
+data(SequencesTest)
 PLDpred::PLDpred(sequences = sequences.test[,-1], allele=sequences.test[,1], gene=NULL, output="./test_PLDpred")
 
 
