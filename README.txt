@@ -10,6 +10,7 @@ The prediction of ligand length distribution is computed with the function PLDpr
 
 install.packages("devtools")
 devtools::install_github("GfellerLab/PLDpred")
+library(PLDpred)
 
 #### USAGE #####
 
@@ -25,7 +26,7 @@ PLDpred returns a vector or dataframe of peptides length distribution of HLA cla
 
 #### Example ####
 
-data(SequencesTest)
+data(sequences.test)
 PLDpred::PLDpred(sequences = sequences.test[,-1], allele=sequences.test[,1], gene=NULL, output="./test_PLDpred")
 
 

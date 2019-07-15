@@ -4,11 +4,11 @@
 #'
 #' @docType data
 #'
-#' @usage data(SequencesTest)
+#' @usage data(sequences.test)
 #'
 #' @format object of class RData. List of interger.
 #'
 #' @keywords datasets
 #'
-"SequencesTest"
+"sequences.test"
 
