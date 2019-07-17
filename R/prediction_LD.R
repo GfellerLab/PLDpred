@@ -22,27 +22,15 @@ Prediction_LD <- function(empty.seq, sequences, allele, gene){
   len <- sapply(8:14, function(x) paste("l",x,sep=''))
   HLAgene <- c('A','B','C')
 
-  # Functions
-
-  pred_glmnet_LOO <-function(fit_mul,test_sparse){
-    pred<-list()
-    for (i in 1:length(len)){
-      pred[[i]]<- predict.cv.glmnet(fit_mul, t(as.matrix(test_sparse)), type="response", s="lambda.min")[,,1][i]
-    }
-    p=do.call(cbind.data.frame,pred)
-    #p=setNames(cbind.data.frame(al,p), c('allele',len))
-    return(p)
-  }
-
   # transform sequence in sparse matrix
   pred_sparse<- sparse.model.matrix(~., sequences)
 
   #### Prediction ####
 
-  data("model_lm")
-  data("model_pos")
+  data(model_lm)
+  data(model_pos)
 
-  prediction_LR_gene <- function(hg, model_lm, model_pos){
+  prediction_LR_gene <- function(hg){
     if (gene[hg] == 'G'){
       h <- 3
     }else{
@@ -51,8 +39,7 @@ Prediction_LD <- function(empty.seq, sequences, allele, gene){
 
     pos_cor <- unlist(model_pos[[h]])
 
-    prediction <- pred_glmnet_LOO(model_lm[[h]],as.matrix(pred_sparse[hg,pos_cor])) # predict.cv.glmnet doest not accept one row dataframe, function helps to do prediction (see below)
-    prediction <-predict.cv.glmnet(model_lm[[h]], data.matrix(sequences[hg,model_pos[[h]]]), type="response", s="lambda.min")[,,1]
+    prediction <- t(data.frame(predict.cv.glmnet(model_lm[[h]], data.matrix(sequences[hg,model_pos[[h]]]), type="response", s="lambda.min")[,,1]))
 
     prediction<- t(apply(prediction,1,norm_dis)) # Normalisation to 1
 
@@ -62,9 +49,9 @@ Prediction_LD <- function(empty.seq, sequences, allele, gene){
   }
 
   if (is.null(dim(sequences))){
-    prediction<-prediction_LR_gene(1, model_pos = model_pos , model_lm = model_lm )
+    prediction<-prediction_LR_gene(1)
   }else{
-    prediction <- t(sapply(1:nrow(sequences), prediction_LR_gene(model_lm=model_lm, model_pos=model_pos)))
+    prediction <- t(sapply(1:nrow(sequences), prediction_LR_gene))
   }
   prediction <- setNames(as.data.frame(prediction), len)
 
