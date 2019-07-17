@@ -4,7 +4,7 @@ PLDpred is a predictor of peptides length distribution (PLD) of HLA-I based on H
 
 ###############
 
-The prediction of ligand length distribution is computed with the function PLDpred, taking as input a vector or dataframe of HLA sequences. Important to mention that predictions are only available for HLA-gene A, B or C. HLA-alleles and HLA-genes are defined separately using arguments "allele" and "gene".
+The prediction of ligand length distribution is computed with the function PLDpred, taking as input a vector or dataframe of HLA sequences (must contain a1 and a2 domain and minimum length of 181 amino acids). Important to mention that predictions are only available for HLA-gene A, B or C. HLA-alleles and HLA-genes are defined separately using arguments "allele" and "gene".
 
 #### INSTALLATION ####
 
