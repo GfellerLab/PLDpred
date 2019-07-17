@@ -4,16 +4,14 @@
 \alias{Sequence_vector}
 \title{Sequence in 20 dimension vectors}
 \usage{
-Sequence_vector(Sequence, pHF)
+Sequence_vector(Sequence)
 }
 \arguments{
 \item{Sequence}{vector or dataframe of HLA sequences.}
-
-\item{pHF}{Ligand length distribution vector with allele name as first column. If pHF is null, just return sequence coded in 20 dimensions position vector.}
 }
 \value{
 dataframe where each line represent sequences coded as 20 dimensions vector per position and ligand length distribution for each allele if pHF not null
 }
 \description{
-Create a one-hot encoding scheme (per 20 amino-acids).
+Create a one-hot encoding scheme of HLA sequences (per 20 amino-acids).
 }

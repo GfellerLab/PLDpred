@@ -4,25 +4,16 @@
 \alias{Prediction_LD}
 \title{Prediction of HLA class I ligand length distribution}
 \usage{
-Prediction_LD(empty.seq, sequences, pred_sparse, pos_cor, model_pos,
-  model_lm, allele, gene)
+Prediction_LD(empty.seq, sequences, allele, gene)
 }
 \arguments{
-\item{empty.seq}{HLA with  no a1 and a2 sequences found.}
+\item{empty.seq}{HLA without a1 and a2 domains found in sequence.}
 
 \item{sequences}{HLA sequences (vector or dataframe)}
 
-\item{pred_sparse}{Sparse matrix of HLA sequences}
+\item{allele}{Allele of HLA (e.g.'HLA-A01:01')}
 
-\item{pos_cor}{selection of position for the prediction}
-
-\item{model_pos}{position for linear regression model for each of HLA-gene (HLA-A,B & C)}
-
-\item{model_lm}{linear regression trained on multi-allelic samples per HLA-gene (HLA-A,B & C)}
-
-\item{allele}{allele of HLA (e.g.'HLA-A01:01')}
-
-\item{gene}{gene of HLA}
+\item{gene}{Gene of HLA}
 }
 \value{
 dataframe with gene/allele and the corresponding ligand length distribution predicted with linear regression model (Save in csv format).

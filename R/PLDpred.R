@@ -21,7 +21,6 @@
 #' @return vector or dataframe with index sequence, allele/gene/predicted gene with predicted ligand length distribution  (Possibility to save prediction in csv format, see output argument).
 #' @export
 
-
 PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
 
   # Setting
@@ -40,8 +39,9 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
   }
 
   # Sequences definition
-  data("PosCons")
-  data("AACons")
+  data(PosCons, envir = environment())
+  data(AACons, envir = environment())
+  data(PWMgenes, envir = environment())
 
   sequences <- sequence_format(sequences)
 
@@ -102,7 +102,7 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
   sequences <- Sequence_vector(sequences)
 
   #### Prediction ####
-  prediction <- Prediction_LD(empty.seq, sequences, pred_sparse, allele, gene)
+  prediction <- Prediction_LD(empty.seq, sequences, allele, gene)
 
   # save prediction in csv file
   if (!is.null(output)){

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sequence_definition.R
 \name{sequence_definition}
 \alias{sequence_definition}
-\title{Definition of sequence HLA sequences}
+\title{Delimitation of HLA sequences for prediction}
 \usage{
 sequence_definition(seq)
 }
@@ -10,5 +10,5 @@ sequence_definition(seq)
 \item{seq}{protein sequence of HLAs}
 }
 \description{
-Define sequences a1 abd a2 as described in the paper Steffe et al. 2019 using 10 highly conserved positions.
+Define a1 and a2 domains in sequence using 10 highly conserved positions.
 }

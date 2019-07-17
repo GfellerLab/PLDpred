@@ -9,7 +9,6 @@
 #'
 #' @return dataframe where each line represent sequences coded as 20 dimensions vector per position and ligand length distribution for each allele if pHF not null
 #' @export
-#'
 Sequence_vector <- function(Sequence){
   colnames_Freq <- c()
   Frequency_vector <- NULL
@@ -22,7 +21,7 @@ Sequence_vector <- function(Sequence){
   if (is.null(dim(Sequence))){
     FreqV <- NULL
     lenseq <- length(Sequence)
-    for (i in 1:length(Sequence)){
+    for (i in 1:lenseq){
       freq_pos<- rep(0, times=length(aa))
       freq_pos[which(Sequence[i]== aa)] <- freq_pos[which(Sequence[i]==aa)]+1
       FreqV <-  c(FreqV, freq_pos)

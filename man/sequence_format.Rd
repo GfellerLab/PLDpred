@@ -10,8 +10,8 @@ sequence_format(sequences)
 \item{sequences}{list of amino acids}
 }
 \value{
-sequences corrected from automatic correction for 'T' and 'F'
+format HLA sequences
 }
 \description{
-Correct the automatic conversion of "T" to TRUE or "F" to FALSE.
+Correct the automatic conversion of "T" to TRUE or "F" to FALSE. It also change NA and empty position to X.
 }

@@ -11,4 +11,3 @@
 #' @keywords datasets
 #'
 "sequences.test"
-

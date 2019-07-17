@@ -5,12 +5,8 @@
 #'
 #' @param empty.seq HLA without a1 and a2 domains found in sequence.
 #' @param sequences HLA sequences (vector or dataframe)
-#' @param pred_sparse Sparse matrix of HLA sequences
-#' @param pos_cor Selection of position for the prediction
 #' @param allele Allele of HLA (e.g.'HLA-A01:01')
 #' @param gene Gene of HLA
-#' @param model_pos Position for linear regression model for each of HLA-gene (HLA-A,B & C)
-#' @param model_lm Linear regression trained on multi-allelic samples per HLA-gene (HLA-A,B & C)
 #'
 #' @import foreach
 #' @import Matrix
@@ -21,7 +17,7 @@
 #' @export
 
 
-Prediction_LD <- function(empty.seq, sequences, pred_sparse, allele, gene){
+Prediction_LD <- function(empty.seq, sequences, allele, gene){
 
   len <- sapply(8:14, function(x) paste("l",x,sep=''))
   HLAgene <- c('A','B','C')
@@ -43,19 +39,20 @@ Prediction_LD <- function(empty.seq, sequences, pred_sparse, allele, gene){
 
   #### Prediction ####
 
-  data("model_lm")
-  data("model_pos")
+  data(model_lm, envir = environment())
+  data(model_pos, envir = environment())
 
-  prediction_LR_gene <- function(hg){
+  prediction_LR_gene <- function(hg, model_lm, model_pos){
     if (gene[hg] == 'G'){
       h <- 3
     }else{
       h <- which(HLAgene==gene[hg])
     }
 
-    pos_cor <- unlist(model_pos[h])
+    pos_cor <- unlist(model_pos[[h]])
 
-    prediction <- pred_glmnet_LOO(model_lm[,h],as.matrix(pred_sparse[hg,pos_cor])) # predict.cv.glmnet doest not accept one row dataframe, function helps to do prediction (see below)
+    prediction <- pred_glmnet_LOO(model_lm[[h]],as.matrix(pred_sparse[hg,pos_cor])) # predict.cv.glmnet doest not accept one row dataframe, function helps to do prediction (see below)
+    prediction <-predict.cv.glmnet(model_lm[[h]], data.matrix(sequences[hg,model_pos[[h]]]), type="response", s="lambda.min")[,,1]
 
     prediction<- t(apply(prediction,1,norm_dis)) # Normalisation to 1
 
@@ -65,9 +62,9 @@ Prediction_LD <- function(empty.seq, sequences, pred_sparse, allele, gene){
   }
 
   if (is.null(dim(sequences))){
-    prediction<-prediction_LR_gene(1)
+    prediction<-prediction_LR_gene(1, model_pos = model_pos , model_lm = model_lm )
   }else{
-    prediction <- t(sapply(1:nrow(sequences), prediction_LR_gene))
+    prediction <- t(sapply(1:nrow(sequences), prediction_LR_gene(model_lm=model_lm, model_pos=model_pos)))
   }
   prediction <- setNames(as.data.frame(prediction), len)
 

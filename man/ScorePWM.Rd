@@ -15,5 +15,5 @@ ScorePWM(sequences, PWMgene)
 Score of sequences similarity with HLA-gene
 }
 \description{
-Sum of amino acids frequencies at specific position of sequences in the gene-specific PWMs.
+Sum of amino acids frequencies at specific position in the gene-specific PWMs corresponding to sequences.
 }
