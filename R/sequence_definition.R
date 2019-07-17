@@ -9,8 +9,8 @@
 #' @export
 
 sequence_definition <- function(seq){
-  data(PosCons, envir = environment())
-  data(AACons, envir = environment())
+  data("PosCons")
+  data("AACons")
   s <- NULL
   score=1
   for (i in 1:(length(seq)-180)){

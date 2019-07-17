@@ -39,8 +39,8 @@ Prediction_LD <- function(empty.seq, sequences, allele, gene){
 
   #### Prediction ####
 
-  data(model_lm, envir = environment())
-  data(model_pos, envir = environment())
+  data("model_lm")
+  data("model_pos")
 
   prediction_LR_gene <- function(hg, model_lm, model_pos){
     if (gene[hg] == 'G'){

@@ -39,9 +39,9 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
   }
 
   # Sequences definition
-  data(PosCons, envir = environment())
-  data(AACons, envir = environment())
-  data(PWMgenes, envir = environment())
+  data("PosCons")
+  data("AACons")
+  data("PWMgenes")
 
   sequences <- sequence_format(sequences)
 
