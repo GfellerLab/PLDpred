@@ -1,9 +1,9 @@
 Package: PLDpred
-Title: Prediction of HLA class I ligand length distribution.
+Title: Prediction of HLA class I ligand length distribution
 Version: 0.0.0.9000
 Authors@R: person("Perrine", "Steffe", email = "perrine.steffe@unil.ch", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.3.2)
+Description: Prediction of HLA class I ligand length distribution between 8- to 14-mers based on the mass-spectrometry dataset from multi-allelic samples.
+Depends: R (>= 3.3.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

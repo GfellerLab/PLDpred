@@ -9,6 +9,6 @@
 data(sequences.test)
 }
 \description{
-20 sequences from IMGT/HLA (Robinson et al. 2015).
+6 sequences from IMGT/HLA (Robinson et al. 2015).
 }
 \keyword{datasets}

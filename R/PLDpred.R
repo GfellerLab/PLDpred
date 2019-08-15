@@ -21,6 +21,7 @@
 #' @return vector or dataframe with index sequence, allele/gene/predicted gene with predicted ligand length distribution  (Possibility to save prediction in csv format, see output argument).
 #' @export
 
+
 PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
 
   # Setting
@@ -52,16 +53,18 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
     d <- sequence_definition(sequences[i,])
     return(d)
     })
+
+    # HLA with no a1 and a2 sequences found.
     empty.seq<-sapply(1:length(sequences), function(w){
       if (is.null(sequences[[w]])){
         return(w)
       }else{
         return(0)
       }
-    }) # HLA with no a1 and a2 sequences found.
+    })
 
     if (sum(empty.seq)>0){
-      print(paste("Warning: Could not find a1 and a2 domaine in sequences",empty.seq,sep=" "))
+      warning(paste("Could not find a1 and a2 domaine in sequences",empty.seq,sep=" "))
       sequences<-do.call('rbind', sequences[[-empty.seq]])
     }else{
       sequences<-do.call('rbind', sequences)
@@ -69,40 +72,50 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
     }
   }
 
-  # Gene definition
 
-  HLAgene<- c('A','B','C','G')
-  if (!is.null(gene)){
-    gene <- as.character(gene)
-  }else{
-    if(is.null(allele) & is.null(gene)){
-      data("PWMgenes")
-      if (is.null(dim(sequences))){
-        score <-PLDpred::ScorePWM(sequences,PosWM)
-        gene <- HLAgene[which.max(score)]
-      }else{
-        score <- lapply(1:nrow(sequences), function(x){
-          sc <- ScorePWM(sequences[x,],PosWM)
-        })
-        gene <- sapply(score, function(d){
-          g <- NULL
-          g <- HLAgene[which.max(d)]
-          return(g)
-        })
-      }
+  # Prediction gene from a1 and a2 domain
+    data("PWMgenes")
+    HLAgene<- c('A','B','C','G')
+
+    if (is.null(dim(sequences))){
+      score <-PLDpred::ScorePWM(sequences,PosWM)
+      gene_pred <- HLAgene[which.max(score)]
+    }else{
+      score <- lapply(1:nrow(sequences), function(x){
+        sc <- ScorePWM(sequences[x,],PosWM)
+      })
+      gene_pred<- sapply(score, function(d){
+        g <- NULL
+        g <- HLAgene[which.max(d)]
+        return(g)
+      })
+    }
+
+  # Gene definition from allele or gene (argument PLDpred function)
+
+    if (!is.null(gene)){
+      gene <- as.character(gene)
     }
     if (!is.null(allele) & is.null(gene)){
       allele <- as.character(allele)
       gene <- substr(allele,5,5)
     }
+  if (!is.null(gene) | !is.null(allele)){
+    if (all(gene==gene_pred)==F){
+      warning(paste("Genes or Alleles gived are not corresponding to our gene prediction, possible mismatch between gene/allele arguments and sequences (PLD prediction are still based on PLDpred gene/allele arguments)"), sep="")
+    }else{
+      gene_pred <- NULL
+    }
+  }else{
+    gene <- gene_pred
+    gene_pred <- NULL
   }
-
 
   # Format sequence in 20 dimensions
   sequences <- Sequence_vector(sequences)
 
   #### Prediction ####
-  prediction <- Prediction_LD(empty.seq, sequences, allele, gene)
+  prediction <- Prediction_LD(empty.seq, sequences, allele, gene, gene_pred)
 
   # save prediction in csv file
   if (!is.null(output)){

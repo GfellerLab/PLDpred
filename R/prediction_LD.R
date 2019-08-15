@@ -17,7 +17,7 @@
 #' @export
 
 
-Prediction_LD <- function(empty.seq, sequences, allele, gene){
+Prediction_LD <- function(empty.seq, sequences, allele, gene, gene_pred){
 
   len <- sapply(8:14, function(x) paste("l",x,sep=''))
   HLAgene <- c('A','B','C')
@@ -67,5 +67,10 @@ Prediction_LD <- function(empty.seq, sequences, allele, gene){
   }else{
     prediction <- cbind.data.frame(index=index,allele=allele,prediction)
   }
+
+  if (!is.null(gene_pred)){
+    prediction <- cbind.data.frame(index=prediction[,1], GenePred = gene_pred, prediction[,-1])
+  }
+
   return(prediction)
 }
