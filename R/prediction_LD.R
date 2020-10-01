@@ -39,7 +39,7 @@ Prediction_LD <- function(empty.seq, sequences, allele, gene, gene_pred){
 
     pos_cor <- unlist(model_pos[[h]])
 
-    prediction <- t(data.frame(predict.cv.glmnet(model_lm[[h]], data.matrix(sequences[hg,model_pos[[h]]]), type="response", s="lambda.min")[,,1]))
+    prediction <- t(data.frame(predict(model_lm[[h]], data.matrix(sequences[hg,model_pos[[h]]]), type="response", s="lambda.min")[,,1]))
 
     prediction<- t(apply(prediction,1,norm_dis)) # Normalisation to 1
 

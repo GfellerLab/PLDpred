@@ -32,7 +32,7 @@ PLDpred <- function(sequences, allele=NULL, gene=NULL, output=NULL){
   pred_glmnet_LOO <-function(fit_mul,test_sparse){
     pred<-list()
     for (i in 1:length(len)){
-      pred[[i]]<- predict.cv.glmnet(fit_mul, t(as.matrix(test_sparse)), type="response", s="lambda.min")[,,1][i]
+      pred[[i]]<- predict(fit_mul, t(as.matrix(test_sparse)), type="response", s="lambda.min")[,,1][i]
     }
     p=do.call(cbind.data.frame,pred)
     #p=setNames(cbind.data.frame(al,p), c('allele',len))
